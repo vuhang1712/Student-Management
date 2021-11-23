@@ -1,0 +1,105 @@
+﻿@using StudentManager.Models;
+@model MonViewModel
+@{
+
+}
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.4.1/select2.min.css" type="text/css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/3.4.1/select2.min.js" type="text/javascript"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('.js-example-basic-multiple').select2();
+        });
+    </script>
+</head>
+<div class="modal-dialog">
+    <div class="modal-content">
+        <form action="/KyThi/EditExam" method="post" name="nameForm" id="idForm">
+            <div class="modal-header">
+                <h4 class="modal-title">Chỉnh sửa kỳ thi:</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <label>Kỳ thi &nbsp;</label><b>(&#8727;)</b>
+                <input type="hidden" class="form-control" name="ID_KY_THI" value="@Model.ID" />
+                <input type="text" class="form-control" name="TEN_KY_THI" value="@Model.TEN_KY_THI" />
+                <p style="display:none;color:red" id="ten">Vui lòng nhập tên</p>
+                <br />
+                <label>Môn thi</label><br />
+                <select style="padding:5px" name="DATA_MONTHI" class="js-example-basic-multiple" multiple="multiple">
+
+                    @foreach (var itemMonThi in Model.DANH_SACH_MON_THI)
+                    {
+                        if (Model.MON_THI1.Contains(itemMonThi.MON_THI1))
+                        {
+                            <option selected class="form-control" value="@itemMonThi.ID">@itemMonThi.MON_THI1</option>
+                        }
+                        else
+                        {
+                            <option class="form-control" value="@itemMonThi.ID">@itemMonThi.MON_THI1</option>
+                        }
+
+                    }
+                </select>
+
+                @*<ul name="TEN_MON_THI">
+                        @foreach (var itemMonThi in Model.MON_THI1)
+                        {
+                            <li>@itemMonThi</li>
+                        }
+                    </ul>*@
+                @*<div class="dropdown" style="text-align:right">
+                        <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown">
+                            Chọn môn thi
+                            &nbsp;<span class="caret"></span>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            @foreach (var itemMonThi in Model.DANH_SACH_MON_THI)
+                            {
+                                <a style="display:block;text-align:left" class="btn btn-group" href="javascript:void(0)" onclick="">
+                                    @itemMonThi
+                                </a>
+                            }
+                        </div>
+                    </div>*@
+                <br />
+                <label>Ngày bắt đầu </label>
+                <input type="text" class="form-control" name="NGAY_BAT_DAU" value="@String.Format("{0:dd/MM/yyyy}",Model.NGAY_BAT_DAU)" />
+                <br />
+                <label>Ngày kết thúc </label>
+                <input type="text" class="form-control" name="NGAY_KET_THUC" value="@String.Format("{0:dd/MM/yyyy}",Model.NGAY_KET_THUC)" />
+                <br />
+                <label>Trạng thái </label>
+                <select name="TRANG_THAI" class="btn btn-default">
+                    <option value="Đang diễn ra">Đang diễn ra</option>
+                    <option value="Đã hoàn thành">Đã hoàn thành</option>
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary" onclick="checkName()">Chỉnh sửa</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+
+    function checkName() {
+        var ten = document.forms["nameForm"]["TEN_KY_THI"].value;
+
+        if (ten == "") {
+            var notification1 = document.getElementById("ten");
+            if (ten == "") {
+                notification1.style.display = "block";
+            }
+            return false;
+        } else {
+            var result = confirm("Bạn có chắc chắn sửa kỳ thi không?");
+            if (result == true) {
+                document.getElementById("idForm").submit();
+            }
+        }
+    }
+</script>

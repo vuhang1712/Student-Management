@@ -1,0 +1,70 @@
+﻿
+@{
+    ViewBag.Title = "ThongTinLop";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model List<StudentManager.DTOs.LopDTO>
+<style>
+    th {
+        color: white;
+        text-align: center;
+        background-color: Highlight;
+        padding: 5px;
+    }
+
+    td {
+        text-align: center;
+    }
+</style>
+<div class="container">
+    <div class="row">
+
+        <div class="col-md-10 col-md-offset-1">
+
+            <div class="panel panel-default panel-table">
+
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col col-xs-6">
+                            <h3 class="panel-title">Danh sách lớp học</h3>
+                        </div>
+                        <div class="col col-xs-6 text-right">
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <table id="table" border="1" width="100%" class="table table-striped table-bordered table-list">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Tên lớp</th>
+                                <th>Sĩ số</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@(Model.IndexOf(item)+1)</td>
+
+                                    @if (@item.TenLop == null || item.TenLop == "")
+                                    {
+                                        <td style="color:red">N/A</td>
+                                    }
+                                    else
+                                    {
+                                        <td>@item.TenLop</td>
+                                    }
+                                    <td>@item.SiSo</td>
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

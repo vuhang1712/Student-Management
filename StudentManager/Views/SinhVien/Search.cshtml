@@ -1,0 +1,123 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+@model List<SINHVIEN>
+<style>
+    th {
+        color: white;
+        text-align: center;
+        background-color: chocolate;
+        padding: 5px;
+    }
+
+    td {
+        text-align: center;
+    }
+</style>
+<br />
+@if (Model.Count == 0)
+{
+    <h3>Không có kết quả tìm kiếm</h3>
+}
+else
+{
+    <form action="/SinhVien/Search" method="post" id="formSearch" style="text-align:center">
+        <br />
+        <div class="form-inline">
+            <div class="form-horizontal">
+                <br />
+                <label style="width:100px;text-align:left">Họ và tên</label>
+                <input type="text" class="form-control" name="QR_NAME" size="30" value="@ViewBag.SearchNameValue" />
+            </div>
+            <div class="form-horizontal">
+                <br />
+                <label style="width:100px;text-align:left">Ngày sinh</label>
+                <input type="datetime" class="form-control" name="QR_DateBegin" size="11" placeholder="từ ngày" value="@ViewBag.SearchDateBeginValue" />
+                <input type="datetime" class="form-control" name="QR_DateEnd" size="11" placeholder="đến ngày" value="@ViewBag.SearchDateEndValue" />
+            </div>
+            <div class="form-horizontal">
+                <br />
+                <label style="width:100px;text-align:left">Email</label>
+                <input type="text" class="form-control" name="QR_EMAIL" size="100" value="@ViewBag.SearchEmailValue" />
+            </div>
+        </div>
+        <br />
+        <div class="form-horizontal">
+            <input type="submit" class="btn btn-primary" value="Tìm kiếm" />
+            <a href="/Home/Index" class="btn btn-danger">Đóng</a>
+        </div>
+    </form>
+    <h3>Kết quả tìm kiếm</h3>
+    <form action="/Home/Index" method="post">
+        <table id="table" border="1" width="100%">
+            <tr>
+                <th>STT</th>
+                <th>Họ tên</th>
+                <th>Ngày sinh</th>
+                <th>Địa chỉ</th>
+                <th>Email</th>
+                <th>Ngày tạo</th>
+                <th>Thao tác</th>
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@(Model.IndexOf(item) + 1)</td>
+                    @if (@item.NAME == null || @item.NAME == "")
+                    {
+                        <td style="color:red">N/A</td>
+                    }
+                    else
+                    {
+                        <td>@item.NAME</td>
+                    }
+                    @if (@item.DateOfBirth == null)
+                    {
+                        <td style="color:red">N/A</td>
+                    }
+                    else
+                    {
+                        <td>@String.Format("{0:dd/MM/yyyy}", @item.DateOfBirth)</td>
+
+                    }
+
+                    @if (@item.Address == null || @item.Address == "")
+                    {
+                        <td style="color:red">N/A</td>
+                    }
+                    else
+                    {
+                        <td>@item.Address</td>
+                    }
+
+                    @if (@item.Email == null || @item.Email == "")
+                    {
+                        <td style="color:red">N/A</td>
+                    }
+                    else
+                    {
+                        <td>@item.Email</td>
+                    }
+
+                    @if (@item.Date == null)
+                    {
+                        <td style="color:red">N/A</td>
+                    }
+                    else
+                    {
+                        <td>@String.Format("{0:dd/M/yyyy HH:mm:ss tt}", @item.Date)</td>
+                    }
+
+                    <td>
+                        <a href="/Home/DetailStudent?idStudent=@item.ID" class="btn btn-default">Xem</a>
+                        <a href="/Home/EditStudent?idStudent=@item.ID" class="btn btn-default">Sửa</a>
+                        <a href="/Home/Delete?id=@item.ID" class="btn btn-default">Xóa</a>
+                    </td>
+                </tr>
+            }
+        </table>
+        <br />
+        <button type="submit" class="btn btn-primary">Quay lại</button>
+    </form>
+}

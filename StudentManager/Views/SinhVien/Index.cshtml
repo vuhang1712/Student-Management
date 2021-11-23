@@ -1,0 +1,247 @@
+﻿@{
+    ViewBag.Title = "Quản lý sinh viên";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model List<StudentManager.ConnectDB.SINHVIEN>
+<style>
+    th {
+        text-align: center;
+    }
+
+    td {
+        text-align: center;
+    }
+</style>
+
+
+<div id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <h1 class="h3 mb-2 text-gray-800">Quản lý sinh viên</h1>
+
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <b class="m-0 font-weight-bold text-primary">Danh sách sinh viên</b>&ensp;
+                            <a href="javascript:void(0)" onclick="themSinhVien()" class="btn btn-sm btn-outline-primary">Thêm sinh viên</a>
+                            <a href="javascript:void(0)" class="btn btn-primary" onclick="show()" hidden>Tìm kiếm</a>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+
+                                <form action="/SinhVien/Search" method="post" id="formSearch" style="text-align:center" hidden>
+                                    <br />
+                                    <div class="form-inline">
+                                        <div class="form-horizontal">
+                                            <br />
+                                            <label style="width:100px;text-align:left">Họ và tên</label>
+                                            <input type="text" class="form-control" name="QR_NAME" size="30" />
+                                        </div>
+                                        <div class="form-horizontal">
+                                            <br />
+                                            <label style="width:100px;text-align:left">Ngày sinh</label>
+                                            <input type="datetime" class="form-control" name="QR_DateBegin" size="11" placeholder="từ ngày" />
+                                            <input type="datetime" class="form-control" name="QR_DateEnd" size="11" placeholder="đến ngày" />
+                                        </div>
+                                        <div class="form-horizontal">
+                                            <br />
+                                            <label style="width:100px;text-align:left">Email</label>
+                                            <input type="email" class="form-control" name="QR_EMAIL" size="100" />
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="form-horizontal">
+                                        <input type="submit" class="btn btn-primary" value="Tìm kiếm" />
+                                        <a href="/Home/Index" class="btn btn-danger">Đóng</a>
+                                    </div>
+                                </form>
+
+
+                                <table class="table table-striped table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>STT</th>
+                                            <th>Họ tên</th>
+                                            <th>Ngày sinh</th>
+                                            <th>Địa chỉ</th>
+                                            <th>Email</th>
+                                            <th>Ngày tạo</th>
+                                            <th>Thao tác</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>@(Model.IndexOf(item) + 1)</td>
+                                                @if (@item.NAME == null || @item.NAME == "")
+                                                {
+                                                    <td style="color:red">N/A</td>
+                                                }
+                                                else
+
+                                                {
+                                                    <td>@item.NAME</td>
+                                                }
+                                                @if (@item.DateOfBirth == null)
+                                                {
+                                                    <td style="color:red">N/A</td>
+                                                }
+                                                else
+                                                {
+                                                    <td>@String.Format("{0:dd/MM/yyyy}", @item.DateOfBirth)</td>
+
+                                                }
+
+                                                @if (@item.Address == null || @item.Address == "")
+                                                {
+                                                    <td style="color:red">N/A</td>
+                                                }
+                                                else
+                                                {
+                                                    <td>@item.Address</td>
+                                                }
+
+                                                @if (@item.Email == null || @item.Email == "")
+                                                {
+                                                    <td style="color:red">N/A</td>
+                                                }
+                                                else
+                                                {
+                                                    <td>@item.Email</td>
+                                                }
+
+                                                @if (@item.Date == null)
+                                                {
+                                                    <td style="color:red">N/A</td>
+                                                }
+                                                else
+                                                {
+                                                    <td>@String.Format("{0:dd/M/yyyy}", @item.Date)</td>
+                                                }
+
+                                                <td>
+                                                    <a href="javascript:void(0)" class="btn btn-sm btn-info" onclick="xemSinhVien(@item.ID)">
+                                                        <i class="fas fa-eye"></i>
+                                                    </a>
+                                                    <a href="javascript:void(0)" onclick="suaSinhVien(@item.ID)" class="btn btn-sm btn-primary">
+                                                        <i class="fas fa-pencil-alt"></i>
+                                                    </a>
+                                                    <a href="javascript:void(0)" onclick="confirmDelete(@item.ID)" class="btn btn-sm btn-danger">
+                                                        <i class="fas fa-trash"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+</div>
+<div class="modal fade" id="exampleModal" role="dialog" aria-hidden="true"></div>
+
+<!-- Modal HTML -->
+<div id="modalDelete" class="modal fade">
+    <div class="modal-dialog modal-confirm">
+        <div class="modal-content">
+            <div class="modal-header flex-column">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 class="modal-title w-100" style="text-align:center;color:red">
+                    <i class="far fa-times-circle" hidden></i>
+                    Xác nhận
+                </h3>
+            </div>
+            <div class="modal-body">
+                <h4 style="text-align:center" class="modal-title w-100">Bạn có chắc chắn muốn xóa sinh viên này?</h4>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
+                <a id="delete" class="btn btn-danger">Xóa</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#exampleModal').on('show.bs.modal')
+
+    function show() {
+        $.ajax({
+            url: '/SinhVien/Search',
+            dataType: 'html',
+            success: function (result) {
+                $('#formSearch').html(result);
+                $("#formSearch").show();
+            }
+        });
+    }
+    function confirmDelete(id) {
+        $('#modalDelete').modal('show');
+        var result = document.getElementById('delete');
+        result.href = '/SinhVien/Delete?id=' + id;
+    }
+    function themSinhVien() {
+        $.ajax({
+            url: '/SinhVien/CreateStudent',
+            dataType: 'html',
+            success: function (result) {
+                $('#exampleModal').html(result);
+                $('#exampleModal').modal('show');
+            }
+        });
+    }
+    function xemSinhVien(idStudent) {
+        $.ajax({
+            url: '/SinhVien/DetailStudent',
+            data: { idStudent: idStudent },
+            dataType: 'html',
+            success: function (result) {
+                $('#exampleModal').html(result);
+                $('#exampleModal').modal('show');
+            }
+        });
+    }
+    function suaSinhVien(idStudent) {
+        $.ajax({
+            url: '/SinhVien/EditStudent',
+            data: { idStudent: idStudent },
+            dataType: 'html',
+            success: function (result) {
+                $('#exampleModal').html(result);
+                $('#exampleModal').modal('show');
+            }
+        });
+    }
+</script>

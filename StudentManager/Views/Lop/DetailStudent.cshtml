@@ -1,0 +1,27 @@
+﻿@{
+    ViewBag.Title = "DetailStudent";
+    Layout = null;
+}
+
+@model StudentManager.ConnectDB.SINHVIEN
+<form action="/Lop/ListStudent?idClass=@ViewBag.IdClass" method="post" style="padding: 20px">
+    <h3 style="color:darkblue">Thông tin sinh viên: @Model.NAME</h3>
+    <div class="form-group">
+        <input type="hidden" name="ID" value="@Model.ID" />
+        <label>Họ và tên</label>
+        <input type="text" class="form-control" name="NAME" placeholder="Họ và tên" value="@Model.NAME" required>
+    </div>
+    <div class="form-group">
+        <label>Ngày sinh</label>
+        <input type="text" class="form-control" name="NGAYSINH" placeholder="Ngày sinh" value="@string.Format("{0:dd/MM/yyyy}",@Model.DateOfBirth)" required>
+    </div>
+    <div class="form-group">
+        <label>Địa chỉ</label>
+        <textarea type="text" class="form-control" name="DIACHI" placeholder="Địa chỉ">@Model.Address</textarea>
+    </div>
+    <div class="form-group">
+        <label>Email</label>
+        <input type="email" class="form-control" name="EMAIL" placeholder="Email" value="@Model.Email">
+    </div>
+    <button type="submit" class="btn btn-danger">Đóng</button>
+</form>

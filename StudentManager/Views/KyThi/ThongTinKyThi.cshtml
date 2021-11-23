@@ -1,0 +1,141 @@
+﻿
+@{
+    ViewBag.Title = "ThongTinKyThi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@model List<StudentManager.Models.MonViewModel>
+
+<style>
+    th {
+        color: white;
+        text-align: center;
+        background-color: Highlight;
+        padding: 5px;
+    }
+
+    td {
+        text-align: center;
+    }
+</style>
+
+<div class="container">
+    <div class="row">
+
+        <div class="col-md-10 col-md-offset-1">
+
+            <div class="panel panel-default panel-table">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col col-xs-6">
+                            <h3 class="panel-title">Danh sách kỳ thi</h3>
+                        </div>
+                        <div class="col col-xs-6 text-right">
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <table id="table" border="1" width="100%" class="table table-striped table-bordered table-list">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Kỳ thi</th>
+                                <th>Môn thi</th>
+                                <th>Ngày bắt đầu</th>
+                                <th>Ngày kết thúc</th>
+                                <th>Trạng thái</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+
+                                if (item.IsDelete == false)
+                                {
+                                    <tr>
+                                        <td style="vertical-align:middle">@(Model.IndexOf(item) + 1)</td>
+
+                                        @if (@item.TEN_KY_THI == null || item.TEN_KY_THI == "")
+                                        {
+                                            <td style="color:red;vertical-align:middle">N/A</td>
+                                        }
+                                        else
+                                        {
+                                            <td style="vertical-align:middle">@item.TEN_KY_THI</td>
+                                        }
+
+                                        <td>
+                                            @foreach (var itemMonThi in item.MON_THI1)
+                                            {
+                                                <h5 style="text-align:left">- @itemMonThi</h5>
+                                            }
+                                        </td>
+
+                                        @if (@item.NGAY_BAT_DAU == null)
+                                        {
+                                            <td style="color:red;vertical-align:middle">N/A</td>
+                                        }
+                                        else
+                                        {
+                                            <td style="vertical-align:middle">@String.Format("{0:dd/MM/yyyy}", @item.NGAY_BAT_DAU)</td>
+                                        }
+
+                                        @if (@item.NGAY_KET_THUC == null)
+                                        {
+                                            <td style="color:red;vertical-align:middle">N/A</td>
+                                        }
+                                        else
+                                        {
+                                            <td style="vertical-align:middle">@String.Format("{0:dd/MM/yyyy}", @item.NGAY_KET_THUC)</td>
+                                        }
+
+                                        @if (@item.TRANG_THAI == null)
+                                        {
+                                            <td style="color:red;vertical-align:middle">N/A</td>
+                                        }
+                                        else
+                                        {
+                                            if (@item.TRANG_THAI == 1)
+                                            {
+                                                <td style="vertical-align:middle">Đã hoàn thành</td>
+                                            }
+                                            else
+                                            {
+                                                <td style="vertical-align:middle">Đang diễn ra</td>
+                                            }
+                                        }
+
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+                @*<div class="panel-footer">
+                        <div class="row">
+                            <div class="col col-xs-4">
+                                Page 1 of 5
+                            </div>
+                            <div class="col col-xs-8">
+                                <ul class="pagination hidden-xs pull-right">
+                                    <li><a href="#">1</a></li>
+                                    <li><a href="#">2</a></li>
+                                    <li><a href="#">3</a></li>
+                                    <li><a href="#">4</a></li>
+                                    <li><a href="#">5</a></li>
+                                </ul>
+                                <ul class="pagination visible-xs pull-right">
+                                    <li><a href="#">«</a></li>
+                                    <li><a href="#">»</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>*@
+            </div>
+
+        </div>
+    </div>
+</div>
+

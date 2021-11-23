@@ -1,0 +1,83 @@
+﻿@using StudentManager.ConnectDB;
+@model List<MON_THI>
+
+<div class="modal-dialog">
+    <div class="modal-content">
+        <form action="/KyThi/AddExam" method="post" name="nameForm" id="idForm">
+            <div class="modal-header">
+                <h4 class="modal-title">Thông tin kỳ thi:</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <label>Kỳ thi &nbsp;</label><b>(&#8727;)</b>
+                <input type="text" class="form-control" name="TEN_KY_THI" />
+                <p style="display:none;color:red" id="ten">Vui lòng nhập tên</p>
+                <br />
+                <label>Môn thi</label><br />
+                <select style="padding:5px" name="DATA_MONTHI" class="js-example-basic-multiple" multiple="multiple">
+
+                    @foreach (var itemMonThi in Model)
+                    {
+                        <option class="form-control" value="@itemMonThi.ID">@itemMonThi.MON_THI1</option>
+                    }
+                </select>
+                <br />
+                <label>Ngày bắt đầu </label>
+                <input type="text" class="form-control" name="NGAY_BAT_DAU" />
+                <br />
+                <label>Ngày kết thúc </label>
+                <input type="text" class="form-control" name="NGAY_KET_THUC" />
+                <br />
+                <label>Trạng thái </label>
+                <select name="TRANG_THAI" class="btn btn-default">
+                    <option value="Đang diễn ra">Đang diễn ra</option>
+                    <option value="Đã hoàn thành">Đã hoàn thành</option>
+                </select>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary" onclick="checkName()">Thêm</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div id="modalAdd" class="modal fade">
+    <div class="modal-dialog modal-confirm">
+        <div class="modal-content">
+            <div class="modal-header flex-column">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 class="modal-title w-100" style="text-align:center;color:red">
+                    <i class="far fa-times-circle" hidden></i>
+                    Xác nhận
+                </h3>
+            </div>
+            <div class="modal-body">
+                <h4 style="text-align:center" class="modal-title w-100">Bạn có chắc chắn muốn thêm kỳ thi này?</h4>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
+                <button onclick="confirmAdd()" class="btn btn-danger">Thêm</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function checkName() {
+        var ten = document.forms["nameForm"]["TEN_KY_THI"].value;
+
+        if (ten == "") {
+            var notification1 = document.getElementById("ten");
+            if (ten == "") {
+                notification1.style.display = "block";
+            }
+            return false;
+        } else {
+            $('#modalAdd').modal('show');
+        }
+    }
+    function confirmAdd() {
+        document.getElementById("idForm").submit();
+    }
+
+</script>

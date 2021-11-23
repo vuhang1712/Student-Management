@@ -1,0 +1,48 @@
+﻿@{
+    ViewBag.Title = "EditClass";
+    Layout = null;
+}
+<style>
+    p {
+        color: red;
+        display: none;
+    }
+</style>
+<div class="modal-dialog">
+    <div class="modal-content">
+        <form action="/Lop/UpdateClass" method="post" name="nameFormEdit" id="idFormEdit">
+            <div class="modal-header">
+                <h4 style="text-align:left" class="modal-title">Chỉnh sửa lớp:</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <label>Nhập tên lớp: </label>
+                <input type="hidden" class="form-control" name="MA_LOP" value="@ViewBag.IdClass" />
+                <input type="text" class="form-control" name="TEN_LOP" value="@ViewBag.NameClass" />
+                <p id="nameEdit">Vui lòng nhập tên</p>
+            </div>
+            <div class="modal-footer">
+                <a href="/Lop/ClassStudent" class="btn btn-danger">Đóng</a>
+                <button type="button" class="btn btn-primary" onclick="checkNameEdit()">Sửa</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function checkNameEdit() {
+        var ten = document.forms["nameFormEdit"]["TEN_LOP"].value;
+        if (ten == "") {
+            var notification1 = document.getElementById("nameEdit");
+            if (ten == "") {
+                notification1.style.display = "block";
+            }
+            return false;
+        } else {
+            var result = confirm("Bạn có chắc chắn sửa lớp không?");
+            if (result == true) {
+                document.getElementById("idFormEdit").submit();
+            }
+        }
+    }
+</script>

@@ -1,0 +1,95 @@
+﻿@{
+    ViewBag.Title = "CreateStudent";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    b {
+        color: red;
+    }
+
+    p {
+        color: red;
+        display: none;
+    }
+</style>
+<div class="modal-dialog">
+    <div class="modal-content">
+        <form name="myForm" action="/SinhVien/AddStudent" method="post" id="form">
+            <div class="modal-header">
+                <h3 style="color:darkblue">Nhập thông tin sinh viên:</h3>
+                <a href="~/SinhVien/Index" class="close">&times;</a>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Họ và tên <b>&#8727;</b></label>
+                    <input type="text" class="form-control" name="NAME">
+                    <p id="ten">Vui lòng nhập tên</p>
+                </div>
+                <div class="form-group">
+                    <label>Ngày sinh <b>&#8727;</b></label>
+                    <input type="date" class="form-control" name="NGAYSINH">
+                    <p id="ngaysinh">Vui lòng nhập ngày sinh theo đúng định dạng dd/mm/yyyy</p>
+                </div>
+                <div class="form-group">
+                    <label>Địa chỉ</label>
+                    <textarea type="text" class="form-control" name="DIACHI"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" class="form-control" name="EMAIL">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="reset" class="btn btn-primary">Hoàn tác</button>
+                <button type="button" class="btn btn-primary" onclick="validateForm()">Thêm</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div id="modalAdd" class="modal fade">
+    <div class="modal-dialog modal-confirm">
+        <div class="modal-content">
+            <div class="modal-header flex-column">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 class="modal-title w-100" style="text-align:center;color:red">
+                    <i class="far fa-times-circle" hidden></i>
+                    Xác nhận
+                </h3>
+            </div>
+            <div class="modal-body">
+                <h4 style="text-align:center" class="modal-title w-100">Bạn có chắc chắn muốn thêm sinh viên này?</h4>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
+                <button onclick="confirmAdd()" class="btn btn-danger">Thêm</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function validateForm() {
+        var ten = document.forms["myForm"]["NAME"].value;
+        var ngaysinh = document.forms["myForm"]["NGAYSINH"].value;
+        if (ten == "" || ngaysinh == "") {
+            var notification1 = document.getElementById("ten");
+            var notification2 = document.getElementById("ngaysinh");
+            if (ten == "") {
+                notification1.style.display = "block";
+            } else {
+                notification1.style.display = "none";
+            }
+            if (ngaysinh == "") {
+                notification2.style.display = "block";
+            } else {
+                notification2.style.display = "none";
+            }
+            return false;
+        } else {
+            $('#modalAdd').modal('show');
+        }
+    }
+    function confirmAdd() {
+        document.getElementById("form").submit();
+    }
+
+</script>
